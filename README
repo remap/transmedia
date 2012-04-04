@@ -4,6 +4,9 @@ Data: 	 creative labor of 50 countries (distilled from over 200 - see excel tabs
 source:	 http://unctadstat.unctad.org/ReportFolders/reportFolders.aspx
 info:	 http://www.unctad.org/en/Pages/DITC/CreativeEconomy/Creative-Economy-Programme.aspx
 
+augmented with GDP data from US ERS : http://www.ers.usda.gov/Data/Macroeconomics/
+
+
 How to use:
 
 currently, all is in 'dataloop.py' - so, to run:
@@ -12,14 +15,21 @@ python ./dataloop.py
 
 see 'updateCountries' stand-in function for how to address the output of updateCountries( category, year, countries[])
 
-replace 'updateCountries' call with <yourmodule>.updateCountries() (the last line in 'mainloop()') after importing <yourmodule>
+note - turn config.lighting to False to test w/o initializing networking & lighting driver
 
 
+main data params in this version:
+
+gdpValue	= GDP
+gdpPPPValue = GDP per capita
+catGDP		= ratio of creative economic category to GDP
+catGDPPPP	= ratio of creative economic category to GDP per capita
+
+Note the data is ordered by average GDP Per Capita 
 
 
 to do:
 
 normalization (0-255)
-interpolation (cross-fading at 20-30 hz)
 HSL color conversion
 html/iframe 'status page' with runtime info
