@@ -1,6 +1,15 @@
 import config
 import csv
-import time
+import math
+from time import time, sleep 
+import sys
+from iColorFlex import IColorFlex
+from KinetSender import KinetSender
+from decimal import *
+
+# floating point precision (to avoid scientific notation in output)
+getcontext().prec = 18
+
 
 csv.register_dialect('custom',
                      delimiter=',',
@@ -28,24 +37,41 @@ def buildCountries(year, category):
 			catName = row['COUNTRY']
 		if(row['CATEGORY']=="GDP Per Capita"):
 			#print row['COUNTRY'] +" : "+row[year]
+			gdpPPPVal = row[year]
+			gdpPPPName = row['COUNTRY']
+			#print row
+		if(row['CATEGORY']=="GDP"):
+			#print row['COUNTRY'] +" : "+row[year]
 			gdpVal = row[year]
 			gdpName = row['COUNTRY']
 			#print row
 		#now we've accumulated all necessary variables per-country... let's build the country list element:
 		if(gdpName == catName and gdpName != 0):
-			countries.append({'name':gdpName,'year':year, 'category':category, 'catValue': catVal,  'gdpValue': gdpVal, 'catGDP':makeCatGDPRatio(catVal,gdpVal)})
+			countries.append({'name':gdpName,'year':year, 'category':category, 'catValue': catVal,  'gdpValue': gdpVal, 'gdpPPPValue': gdpPPPVal, 'catGDP':makeCatGDPRatio(catVal,gdpVal), 'catGDPPPP':makeCatGDPPPPRatio(catVal,gdpPPPVal)})
 			gdpName = catName = 0
-	print countries
-	import sys
+	#print countries
 	sys.exit(1)
 	return countries
 
-
-def makeCatGDPRatio(catVal, gdpVal):
-    #note GDP value is in dollars, and the categories are in millions
+# this returns value for category : gdp per capita
+# ie dollar amount of creative economy per person
+def makeCatGDPPPPRatio(catVal, gdpPPPVal):
+    #note GDP PPP value is in dollars, and the categories are in millions
     #so we just make everything dollars:
     # and GDP is in 2005, but other values in 2010, so we adjust for inflation
-    ratio = ((float(catVal)*1000000)/(float(gdpVal)*float(config.inflationFactor)))
+    ratio = ((float(catVal)*1000000)/(float(gdpPPPVal)*float(config.inflationFactor)))
+    return ratio
+
+# this returns value for category : gdp total
+# ie percentage of GDP that is creative economy
+def makeCatGDPRatio(catVal, gdpVal):
+    #note GDP value is in billions, and the categories are in millions
+    #so we just make everything dollars
+    #and GDP is in 2005, but other values in 2010, so we adjust for inflation
+    ratio = ((Decimal(catVal)*1000000)/(Decimal(gdpVal)*1000000000*Decimal(config.inflationFactor)))
+    if(ratio == 0):
+		ratio = 0
+    print ratio
     return ratio
 
 #any other derived methods should be placed here, and referred to above in 'buildcountry' list assignment, ie:
@@ -56,7 +82,6 @@ def makeCatGDPRatio(catVal, gdpVal):
 # JB 
 # 
 def timedFade (xfTime, period, callback, cbargs):     
-    from time import time, sleep 
     tStart = time()
     t = tStart # ensure we start at 0 
     while (t < tStart + xfTime):        
@@ -70,7 +95,6 @@ def timedFade (xfTime, period, callback, cbargs):
 #
 #  Value to light calculation
 #
-import math
 def updateLights( A, values ):   # A from 0..1;  assume values same size array
 	V = []
 	for i in range(0,len(values[0])):
@@ -88,20 +112,20 @@ def updateLights( A, values ):   # A from 0..1;  assume values same size array
 				h.append(V[i])
 				s.append(0.35 + math.log10(V[i])/6)
 				l.append(0.5)
-			print h[i],s[i],l[i], V[i], values[1][i]['name']
-	strandPair.setHSLArray(h,s,l) 
+			#print h[i],s[i],l[i], V[i], values[1][i]['name']
+	if(config.light):
+		strandPair.setHSLArray(h,s,l) 
 
  
 # updateCountries
 # triggers the crossfade every config.yearWait
 #
-lastCountries = [{'name':0,'year':0, 'category':0, 'catValue': 0,  'gdpValue': 0, 'catGDP':0} for x in range(0,50)]
-xfTime = 5     # seconds for crossfade
-xfStep = 0.010 # seconds per step in xf 
+lastCountries = [{'name':0,'year':0, 'category':0, 'catValue': 0,  'gdpValue': 0, 'gdpPPPValue':0, 'catGDP':0, 'catGDPPPP':0} for x in range(0,50)]
+
 def updateCountries(catID, yearID, countries):
     global lastCountries 
     print "Fading to:", config.categories[catID], config.years[yearID]
-    timedFade( xfTime, xfStep, updateLights, [lastCountries, countries])
+    timedFade( config.xfTime, config.xfStep, updateLights, [lastCountries, countries])
     lastCountries = countries
 #
 # end JB
@@ -112,13 +136,12 @@ def mainLoop():
     yearID = 0
     while(True):  # Run forever
         for cat in config.categories:
-            time.sleep(config.categoryWait)
+            sleep(config.categoryWait)
             for year in config.years:
-                time.sleep(config.yearWait)
+                sleep(config.yearWait)
                 updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
             
-from iColorFlex import IColorFlex
-from KinetSender import KinetSender            
+         
 if __name__ == "__main__":
 	#Network configuration : for production system 
 	#IP Address. . . . . . . . . . . . : 131.179.141.34
@@ -128,13 +151,12 @@ if __name__ == "__main__":
 	# Set up a single icolorflex sender 
 	# and broadcast it to all strands
 	#
-	SELF_IP = "131.179.141.34"
-	PDS_IP = "131.179.141.127"   # Broadcast on our subnet 	
-	strandPair = IColorFlex(2) 
-	kinetsender = KinetSender(SELF_IP, PDS_IP, 2, 150, None, False)  
-	kinetsender.addPayloadObject(strandPair)
-	strandPair.setHSL(0,0,0)  # Set initial payload to black
-	kinetsender.start()
+	if(config.light):
+		strandPair = IColorFlex(2) 
+		kinetsender = KinetSender(config.SELF_IP, config.PDS_IP, 2, 150, None, False)  
+		kinetsender.addPayloadObject(strandPair)
+		strandPair.setHSL(0,0,0)  # Set initial payload to black
+		kinetsender.start()
     
 	print("generating values for lighting from GDP")
 	mainLoop()
