@@ -50,7 +50,6 @@ def buildCountries(year, category):
 			countries.append({'name':gdpName,'year':year, 'category':category, 'catValue': catVal,  'gdpValue': gdpVal, 'gdpPPPValue': gdpPPPVal, 'catGDP':makeCatGDPRatio(catVal,gdpVal), 'catGDPPPP':makeCatGDPPPPRatio(catVal,gdpPPPVal)})
 			gdpName = catName = 0
 	#print countries
-	sys.exit(1)
 	return countries
 
 # this returns value for category : gdp per capita
@@ -91,31 +90,41 @@ def timedFade (xfTime, period, callback, cbargs):
         t = time()               
     callback(1, cbargs) # ensure we finish at 1    
 
+def clip(x): 
+	return max(0.0,min(1.0,x))
+
+def scale(x, xmin, xmax, ymin, ymax):
+	return (x-xmin) * (ymax-ymin)/(xmax-xmin) + ymin 
+
 
 #
 #  Value to light calculation
 #
 def updateLights( A, values ):   # A from 0..1;  assume values same size array
 	V = []
-	for i in range(0,len(values[0])):
+	for i in range(0,min(50,len(values[0]))):
 		V.append(  (1-A)*float(values[0][i]['catGDP']) + A*float(values[1][i]['catGDP']) )
-	h = []
-	s = []
-	l = []	
+	h = [0 for x in range(0,100)]
+	s = [0 for x in range(0,100)]
+	l = [0 for x in range(0,100)]	
 	for S in range(0,2):   # two strands per pair, fill them with the same thing
-		for i in range(0,len(V)): 
+		for i in range(0,50): 
 			if V[i]==0:
-				h.append(0)
-				s.append(0.35)
-				l.append(0.5)						
+				h[S*50+i]=220
+				s[S*50+i]=1
+				l[S*50+i]=0.55					
 			else: 				
-				h.append(V[i])
-				s.append(0.35 + math.log10(V[i])/6)
-				l.append(0.5)
-			#print h[i],s[i],l[i], V[i], values[1][i]['name']
+				x = math.log10(V[i])/2.5 + 1.75 # from 0 to 1
+				h[S*50+i]=scale(clip(x),0,1,220,340)
+				s[S*50+i]=1
+				l[S*50+i]=0.55
+				#print V[i],x, values[1][i]['name'], h[i]
+			#print h[i],s[i],l[i], 
+		#indexing problem?
+		
 	if(config.light):
 		strandPair.setHSLArray(h,s,l) 
-
+		
  
 # updateCountries
 # triggers the crossfade every config.yearWait

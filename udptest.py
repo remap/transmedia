@@ -22,13 +22,20 @@ if __name__ == '__main__':
 	s = []
 	l = []
 
-	hstep = 225.0 / 50.0
+	# HUE RANGE 
+	# H = 220 to 340
+	
+	# AND FOR NOW, 
+	# S = 1
+	# L = 0.5		
+	
+	hstep = 120.0 / 50.0  # hues are 0 to 360, this does 0 to 225, stepping through for each light
 
 	for k in range (0,2):
 		for i in range (0,50):
-			h.append(i*hstep)
-			s.append(0.9)
-			l.append(0.75)
+			h.append(i*hstep + 220)
+			s.append(1)
+			l.append(.5)
 
 	strandPair.setHSLArray(h,s,l)
 
