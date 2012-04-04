@@ -71,7 +71,7 @@ def makeCatGDPRatio(catVal, gdpVal):
     ratio = ((Decimal(catVal)*1000000)/(Decimal(gdpVal)*1000000000*Decimal(config.inflationFactor)))
     if(ratio == 0):
 		ratio = 0
-    print ratio
+    #print ratio
     return ratio
 
 #any other derived methods should be placed here, and referred to above in 'buildcountry' list assignment, ie:
