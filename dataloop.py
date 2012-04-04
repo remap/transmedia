@@ -109,15 +109,16 @@ def updateLights( A, values ):   # A from 0..1;  assume values same size array
 	l = [0 for x in range(0,100)]	
 	for S in range(0,2):   # two strands per pair, fill them with the same thing
 		for i in range(0,50): 
+			k = S*50+i
 			if V[i]==0:
-				h[S*50+i]=220
-				s[S*50+i]=1
-				l[S*50+i]=0.55					
+				h[k] = 220
+				s[k] = 1
+				l[k] = 0.52				
 			else: 				
 				x = math.log10(V[i])/2.5 + 1.75 # from 0 to 1
-				h[S*50+i]=scale(clip(x),0,1,220,340)
-				s[S*50+i]=1
-				l[S*50+i]=0.55
+				h[k] = scale(clip(x),0,1,220,340)
+				s[k] = 1
+				l[k] = 0.52
 				#print V[i],x, values[1][i]['name'], h[i]
 			#print h[i],s[i],l[i], 
 		#indexing problem?

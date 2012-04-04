@@ -5,11 +5,11 @@
 light = True
 
 # in seconds:
-categoryWait = 1
-yearWait = 1
+categoryWait = 0
+yearWait = 0
 
-xfTime = 5     # seconds for crossfade
-xfStep = 0.010 # seconds per step in xf
+xfTime = 0.10     # seconds for crossfade
+xfStep = 0.005 # seconds per step in xf
 
 
 SELF_IP = "131.179.141.34"
@@ -82,5 +82,4 @@ countries = ['Norway',
 			'Kenya',
 			'Kyrgyzstan',
 			'Bangladesh',
-			'Tanzania',
 			'Ethiopia']
