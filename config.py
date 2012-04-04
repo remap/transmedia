@@ -2,8 +2,8 @@
 
 # in seconds:
 
-categoryWait = .1 
-yearWait = .5
+categoryWait = 1
+yearWait = 1
 
 
 # verbose data attributes below

@@ -22,3 +22,4 @@ to do:
 normalization (0-255)
 interpolation (cross-fading at 20-30 hz)
 HSL color conversion
+html/iframe 'status page' with runtime info
