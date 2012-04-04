@@ -1,5 +1,4 @@
 
-
 #  If ever I implement this again, each channel should have an alpha !!
 #
 #
@@ -54,9 +53,9 @@ class IColorFlex(object):
         
     def __str__(self):
         S = "<iColorFlex, ports="+str(self._ports)+", portstart="+str(self.portstart)+">"
-        #S+="\n"
-        #for k in range(0,self._size):
-        #    S += "\t"+str(k) + ": " + str(self.ch[k]) + "\n"
+        S+="\n"
+        for k in range(0,self._size):
+            S += "\t"+str(k) + ": " + str(self.ch[k]) + "\n"
         return S
     
     def __getitem__(self,key):
@@ -106,7 +105,7 @@ class IColorFlex(object):
     
     def setHSLArray(self, h, s, l, channels=None):
         if channels==None:
-            channels = range(0,self._size)
+            channels = range(0,self._size)          
         for k in channels:
             if h is not None: self.ch[k].h = h[k]
             if s is not None: self.ch[k].s = s[k]
