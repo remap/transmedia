@@ -68,7 +68,7 @@ def makeCatGDPRatio(catVal, gdpVal):
     #note GDP value is in billions, and the categories are in millions
     #so we just make everything dollars
     #and GDP is in 2005, but other values in 2010, so we adjust for inflation
-    ratio = ((Decimal(catVal)*1000000)/(Decimal(gdpVal)*1000000000*Decimal(config.inflationFactor)))
+    ratio = ((Decimal(str(catVal))*1000000)/(Decimal(str(gdpVal))*1000000000*Decimal(str(config.inflationFactor))))
     if(ratio == 0):
 		ratio = 0
     #print ratio
