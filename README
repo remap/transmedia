@@ -1,0 +1,24 @@
+TRANSMEDIA LIGHTING CONTROLLER
+
+Data: 	 creative labor of 50 countries (distilled from over 200 - see excel tabs)
+source:	 http://unctadstat.unctad.org/ReportFolders/reportFolders.aspx
+info:	 http://www.unctad.org/en/Pages/DITC/CreativeEconomy/Creative-Economy-Programme.aspx
+
+How to use:
+
+currently, all is in 'dataloop.py' - so, to run:
+
+python ./dataloop.py
+
+see 'updateCountries' stand-in function for how to address the output of updateCountries( category, year, countries[])
+
+replace 'updateCountries' call with <yourmodule>.updateCountries() (the last line in 'mainloop()') after importing <yourmodule>
+
+
+
+
+to do:
+
+normalization (0-255)
+interpolation (cross-fading at 20-30 hz)
+HSL color conversion
