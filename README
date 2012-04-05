@@ -18,6 +18,27 @@ see 'updateCountries' stand-in function for how to address the output of updateC
 note - turn config.lighting to False to test w/o initializing networking & lighting driver
 
 
+STATUS PAGE:
+
+load html/display.html in full screen. The status page loads a json file every 200 ms that is written by the installation's refresh loop.
+
+however, we're reading a local file, so we have to mind browser 'crossdomain' security. 
+
+Firefox seems to work fine (We're loading a local html file, so should be fine loading local data)
+
+yet Chrome is quite paranoid, so to use it, we much launch new chrome instance  with --disable-web-security
+
+ie
+
+mac:
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security
+
+windows:
+chrome.exe --disable-web-security
+
+
+
+
 main data params in this version:
 
 gdpValue	= GDP
@@ -31,5 +52,3 @@ Note the data is ordered by average GDP Per Capita
 to do:
 
 normalization (0-255)
-HSL color conversion
-html/iframe 'status page' with runtime info

@@ -1,0 +1,28 @@
+
+.category {
+	color: white;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+	font-size: 64pt;
+	font-weight: bold;
+}
+.year {
+	color: white;
+	font-size: 32pt;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+body {
+	background-color: black;
+}
+.key {
+	color: white;
+}
+.model {
+	bottom: auto;
+	color: white;
+}
+.biblio {
+	font-size: xx-small;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+	position: absolute; bottom:0;
+	color: white;
+}
