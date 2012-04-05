@@ -110,13 +110,14 @@ def updateLights( A, values ):   # A from 0..1;  assume values same size array
 	for S in range(0,2):   # two strands per pair, fill them with the same thing
 		for i in range(0,50): 
 			k = S*50+i
+#220 to 340
 			if V[i]==0:
-				h[k] = 220
+				h[k] = 210
 				s[k] = 1
 				l[k] = 0.52				
 			else: 				
 				x = math.log10(V[i])/2.5 + 1.75 # from 0 to 1
-				h[k] = scale(clip(x),0,1,220,340)
+				h[k] = scale(clip(x),0,1,210,360)
 				s[k] = 1
 				l[k] = 0.52
 				#print V[i],x, values[1][i]['name'], h[i]
@@ -155,9 +156,6 @@ def mainLoop():
             for year in config.years:
                 sleep(config.yearWait)
                 updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
-                junk = sys.stdin.readline()
-                print (junk)
-
 
 				
 				

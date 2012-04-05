@@ -2,11 +2,12 @@
 
 # debug param for testing data w/o lighting
 # set to true, to send to light
-light = True
+light = False
 
 # in seconds:
 categoryWait = 0
 yearWait = 3
+
 
 xfTime = 3.0     # seconds for crossfade
 xfStep = 0.005 # seconds per step in xf

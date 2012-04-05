@@ -156,9 +156,7 @@ def mainLoop():
             for year in config.years:
                 sleep(config.yearWait)
                 updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
-
-				
-				
+		
 
 
 if __name__ == "__main__":
