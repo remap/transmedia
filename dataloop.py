@@ -20,7 +20,7 @@ csv.register_dialect('custom',
                      skipinitialspace=True)
 
 def buildCountries(year, category):
-	print  ("building countries for ",  year, category)
+	#print  ("building countries for ",  year, category)
     # build countries
 	ifile = open(config.dataFile, "rU") 
 	#data = csv.reader(ifile, dialect='custom')
@@ -135,12 +135,17 @@ lastCountries = [{'name':0,'year':0, 'category':0, 'catValue': 0,  'gdpValue': 0
 def updateCountries(catID, yearID, countries):
     global lastCountries 
     print "Fading to:", config.categories[catID], config.years[yearID]
+    writeStatus(catID,yearID)
     timedFade( config.xfTime, config.xfStep, updateLights, [lastCountries, countries])
     lastCountries = countries
 #
 # end JB
     
-    
+def writeStatus(catID, yearID):
+    f = open('html/js/status.json','w')
+    f.write('data = { "category": "'+config.categories[catID]+'", "year": "'+config.years[yearID]+'"}')
+    f.close()
+
 def mainLoop():
     catID = 0
     yearID = 0
@@ -150,8 +155,14 @@ def mainLoop():
             for year in config.years:
                 sleep(config.yearWait)
                 updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
-            
-         
+                junk = sys.stdin.readline()
+                print (junk)
+
+
+				
+				
+
+
 if __name__ == "__main__":
 	#Network configuration : for production system 
 	#IP Address. . . . . . . . . . . . : 131.179.141.34
@@ -169,6 +180,7 @@ if __name__ == "__main__":
 		kinetsender.start()
     
 	print("generating values for lighting from GDP")
+	
 	mainLoop()
     
 	# Wrap up finish.
