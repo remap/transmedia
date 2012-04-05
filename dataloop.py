@@ -20,7 +20,7 @@ csv.register_dialect('custom',
                      skipinitialspace=True)
 
 def buildCountries(year, category):
-	print  ("building countries for ",  year, category)
+	#print  ("building countries for ",  year, category)
     # build countries
 	ifile = open(config.dataFile, "rU") 
 	#data = csv.reader(ifile, dialect='custom')
@@ -110,13 +110,14 @@ def updateLights( A, values ):   # A from 0..1;  assume values same size array
 	for S in range(0,2):   # two strands per pair, fill them with the same thing
 		for i in range(0,50): 
 			k = S*50+i
+#220 to 340
 			if V[i]==0:
-				h[k] = 220
+				h[k] = 210
 				s[k] = 1
 				l[k] = 0.52				
 			else: 				
 				x = math.log10(V[i])/2.5 + 1.75 # from 0 to 1
-				h[k] = scale(clip(x),0,1,220,340)
+				h[k] = scale(clip(x),0,1,210,360)
 				s[k] = 1
 				l[k] = 0.52
 				#print V[i],x, values[1][i]['name'], h[i]
@@ -135,12 +136,17 @@ lastCountries = [{'name':0,'year':0, 'category':0, 'catValue': 0,  'gdpValue': 0
 def updateCountries(catID, yearID, countries):
     global lastCountries 
     print "Fading to:", config.categories[catID], config.years[yearID]
+    writeStatus(catID,yearID)
     timedFade( config.xfTime, config.xfStep, updateLights, [lastCountries, countries])
     lastCountries = countries
 #
 # end JB
     
-    
+def writeStatus(catID, yearID):
+    f = open('html/js/status.json','w')
+    f.write('data = { "category": "'+config.categories[catID]+'", "year": "'+config.years[yearID]+'"}')
+    f.close()
+
 def mainLoop():
     catID = 0
     yearID = 0
@@ -150,8 +156,11 @@ def mainLoop():
             for year in config.years:
                 sleep(config.yearWait)
                 updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
-            
-         
+
+				
+				
+
+
 if __name__ == "__main__":
 	#Network configuration : for production system 
 	#IP Address. . . . . . . . . . . . : 131.179.141.34
@@ -169,6 +178,7 @@ if __name__ == "__main__":
 		kinetsender.start()
     
 	print("generating values for lighting from GDP")
+	
 	mainLoop()
     
 	# Wrap up finish.
