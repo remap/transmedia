@@ -6,9 +6,9 @@ light = True
 
 # in seconds:
 categoryWait = 0
-yearWait = 0
+yearWait = 3
 
-xfTime = 0.10     # seconds for crossfade
+xfTime = 3.0     # seconds for crossfade
 xfStep = 0.005 # seconds per step in xf
 
 
