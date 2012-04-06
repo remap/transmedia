@@ -7,20 +7,21 @@ info:	 http://www.unctad.org/en/Pages/DITC/CreativeEconomy/Creative-Economy-Prog
 augmented with GDP data from US ERS : http://www.ers.usda.gov/Data/Macroeconomics/
 
 
-How to use:
+HOW TO USE:
+
 
 currently, all is in 'dataloop.py' - so, to run:
 
 python ./dataloop.py
-
-see 'updateCountries' stand-in function for how to address the output of updateCountries( category, year, countries[])
 
 note - turn config.lighting to False to test w/o initializing networking & lighting driver
 
 
 STATUS PAGE:
 
-load html/display.html in full screen. The status page loads a json file every 200 ms that is written by the installation's refresh loop.
+load html/display.html in full screen. 
+
+The status page loads a json file every 200 ms that is written by the installation's refresh loop. (this can be changed in timer loop at top of html/js/display.js)
 
 however, we're reading a local file, so we have to mind browser 'crossdomain' security. 
 
@@ -38,6 +39,19 @@ chrome.exe --disable-web-security
 
 
 
+KEYBOARD CONTROL:
+
+python ./dataloop_keyctl.py  (instead of ./dataloop.py)
+and open
+html/display_key.html 		(instead of html/display.html)
+
+keys 1-9 when pressed, sets the time between years (including fade) to the key pressed.
+
+note default is 3. 
+
+Note key control will NOT work in firefox. we need to use the security-disabled instance of Chrome, illustrated above. 
+
+
 
 main data params in this version:
 
@@ -49,6 +63,3 @@ catGDPPPP	= ratio of creative economic category to GDP per capita
 Note the data is ordered by average GDP Per Capita 
 
 
-to do:
-
-normalization (0-255)
