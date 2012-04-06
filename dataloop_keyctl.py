@@ -181,13 +181,13 @@ def mainLoop(name, g):
             sleep(config.categoryWait)
             for year in config.years:
 				key = int(g.key)
-				print "key is ", key
+				#print "key is ", key
 				# only listen to keys 1-9
 				if(key>48 and key<58):
-						val = key-48
-						config.yearWait = val
-						config.xfTime = val
-				print "year wait is ",config.yearWait
+					val = key-48
+					config.yearWait = val
+					config.xfTime = val
+				#print "year wait is ",config.yearWait
 				sleep(config.yearWait)
 				updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
 
