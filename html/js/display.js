@@ -23,4 +23,5 @@ function processData(data){
 	var status = eval('(' + data + ')');
 	$(year).html(status.year);
    	$(category).html(status.category);
+	$(categorydescription).html(status.categorydescription);
 }

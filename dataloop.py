@@ -110,7 +110,8 @@ def updateLights( A, values ):   # A from 0..1;  assume values same size array
 	for S in range(0,2):   # two strands per pair, fill them with the same thing
 		for i in range(0,50): 
 			k = S*50+i
-#220 to 340
+#original 220 to 340
+#installation 210 to 360
 			if V[i]==0:
 				h[k] = 210
 				s[k] = 1
