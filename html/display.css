@@ -2,27 +2,52 @@
 .category {
 	color: white;
 	font-family: Helvetica, Verdana, Arial, sans-serif;
-	font-size: 64pt;
+	font-size: 85pt;
 	font-weight: bold;
+	width: 85%;
+	height: 220px; 
+	position: absolute;
+	top: 0px;
+	z-index:2;
 }
 .year {
 	color: white;
-	font-size: 32pt;
+	font-size: 128pt;
 	font-family: Helvetica, Verdana, Arial, sans-serif;
+	font-weight:bold;
+	text-align:right;
+	position: relative;
+	top: 200px;
+	z-index:2;
 }
 body {
 	background-color: black;
 }
 .key {
 	color: white;
+	z-index:3;
+	position: absolute;
+	top:1000px;
+	left:1150px;
 }
 .model {
-	bottom: auto;
+	color: white;	
+	z-index: 1;
+	position: absolute;
+	left:30px; 
+	top: 290px;
+	}
+
+.categorydescription {
 	color: white;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+	font-size: 24pt;
 }
+
 .biblio {
-	font-size: xx-small;
+	font-size: 12pt;
 	font-family: Helvetica, Verdana, Arial, sans-serif;
 	position: absolute; bottom:0;
-	color: white;
+	color: #AAAAAA;
+	z-index: 2
 }
