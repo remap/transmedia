@@ -2,7 +2,7 @@
 
 # debug param for testing data w/o lighting
 # set to true, to send to light
-light = False
+light = True
 
 # in seconds:
 categoryWait = 0

@@ -139,8 +139,8 @@ def updateLights( A, values ):   # A from 0..1;  assume values same size array
 #220 to 340
             if V[i]==0:
                 h[k] = 210
-                s[k] = 1
-                l[k] = 0.52
+                s[k] = 0.37 #0.35
+                l[k] = 0.60 #0.52
             else:
                 x = math.log10(V[i])/2.5 + 1.75 # from 0 to 1
                 h[k] = scale(clip(x),0,1,210,360)
@@ -185,9 +185,9 @@ def mainLoop(name, g):
 				# only listen to keys 1-9
 				if(key>48 and key<58):
 						val = key-48
-						config.yearWait = val * 0.6
-						config.xfTime = val * 0.6
-				print "year wait is ",config.yearWait
+						config.yearWait = math.pow(1.75,val) *0.15
+						config.xfTime = math.pow(1.35,val) *0.5
+				print "year wait is ",config.yearWait, "xfTime is", config.xfTime
 				sleep(config.yearWait)
 				updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
 
@@ -216,6 +216,8 @@ if __name__ == "__main__":
     application.listen(8082)
     #tornado.ioloop.PeriodicCallback(res, 1)
 
+    respondToKey(54)
+	
     # cannot seem to start these both simultaneously... they're mutually exclusive.
     # can't find a simple thread manager pattern that lets me at least exchange a key stroke...
     thread.start_new_thread(mainLoop, ("loop thread",g))
