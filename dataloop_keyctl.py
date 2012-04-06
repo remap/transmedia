@@ -181,7 +181,7 @@ def mainLoop(name, g):
             sleep(config.categoryWait)
             for year in config.years:
 				key = int(g.key)
-				print "key is ", key
+				#print "key is ", key
 				# only listen to keys 1-9
 				if(key>48 and key<58):
 						val = key-48
