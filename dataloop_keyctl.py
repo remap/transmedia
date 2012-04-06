@@ -185,8 +185,8 @@ def mainLoop(name, g):
 				# only listen to keys 1-9
 				if(key>48 and key<58):
 						val = key-48
-						config.yearWait = val
-						config.xfTime = val
+						config.yearWait = val * 0.6
+						config.xfTime = val * 0.6
 				print "year wait is ",config.yearWait
 				sleep(config.yearWait)
 				updateCountries(config.categories.index(cat), config.years.index(year),buildCountries(year, cat))
